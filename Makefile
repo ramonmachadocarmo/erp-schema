@@ -12,6 +12,7 @@ generate-go:
 		-p model \
 		--struct-name-from-title \
 		--tags json \
+		--capitalization ID \
 		-o generated/go/model/types.go \
 		$(SCHEMAS)
 
@@ -33,7 +34,7 @@ generate-dart:
 		--out generated/dart/lib/src/models.dart
 
 verify:
-	cd generated/go && go build ./... && go vet ./...
+	cd generated/go && go build ./... && go vet ./... && go test ./... -cover
 	npx tsc --noEmit -p generated/ts
 	cd generated/dart && dart analyze
 

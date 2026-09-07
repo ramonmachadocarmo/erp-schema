@@ -25,7 +25,7 @@ type Address struct {
 
 	// Empty when the address is an inline snapshot (e.g. on an order) rather than a
 	// saved record.
-	Id *string `json:"id,omitempty,omitzero"`
+	ID *string `json:"id,omitempty,omitzero"`
 
 	// Absent (not null) when unset — Go's omitempty drops the key entirely.
 	Lat *float64 `json:"lat,omitempty,omitzero"`
@@ -100,7 +100,7 @@ type Quote struct {
 	DiscountAmount *float64 `json:"discount_amount,omitempty,omitzero"`
 
 	// Server-assigned; absent on a create request.
-	Id *string `json:"id,omitempty,omitzero"`
+	ID *string `json:"id,omitempty,omitzero"`
 
 	// Items corresponds to the JSON schema field "items".
 	Items []QuoteLine `json:"items"`
@@ -115,8 +115,8 @@ type Quote struct {
 	// request.
 	SubtotalAmount *float64 `json:"subtotal_amount,omitempty,omitzero"`
 
-	// SupplierId corresponds to the JSON schema field "supplier_id".
-	SupplierId string `json:"supplier_id"`
+	// SupplierID corresponds to the JSON schema field "supplier_id".
+	SupplierID string `json:"supplier_id"`
 
 	// Server-computed: subtotal - discount + delivery. Absent/ignored on a create or
 	// update request.
@@ -125,10 +125,10 @@ type Quote struct {
 
 type QuoteLine struct {
 	// Server-assigned; absent on a create/update request.
-	Id *string `json:"id,omitempty,omitzero"`
+	ID *string `json:"id,omitempty,omitzero"`
 
-	// ProductId corresponds to the JSON schema field "product_id".
-	ProductId string `json:"product_id"`
+	// ProductID corresponds to the JSON schema field "product_id".
+	ProductID string `json:"product_id"`
 
 	// Quantity corresponds to the JSON schema field "quantity".
 	Quantity float64 `json:"quantity"`
