@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://erp-schema.local/common/address.schema.json",
+  "title": "Address",
+  "description": "A postal address as it crosses the wire today — identical shape independently duplicated in sales-service's OrderAddress and config-service's Address before this schema existed.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Empty when the address is an inline snapshot (e.g. on an order) rather than a saved record." },
+    "alias": { "type": "string" },
+    "zip": { "type": "string" },
+    "street": { "type": "string" },
+    "number": { "type": "string" },
+    "complement": { "type": "string" },
+    "district": { "type": "string" },
+    "city": { "type": "string" },
+    "state": { "type": "string" },
+    "lat": { "type": "number", "description": "Absent (not null) when unset — Go's omitempty drops the key entirely." },
+    "lng": { "type": "number", "description": "Absent (not null) when unset — Go's omitempty drops the key entirely." }
+  },
+  "required": ["alias", "zip", "street", "number", "complement", "district", "city", "state"],
+  "additionalProperties": false
+}

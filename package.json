@@ -1,0 +1,10 @@
+{
+  "name": "erp-schema-tools",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Codegen tooling for erp-schema — not published; see generated/ts/package.json for the consumable @erp/schema package.",
+  "devDependencies": {
+    "quicktype": "^23.0.170",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,5 @@
+node_modules/
+.dart_tool/
+generated/dart/.dart_tool/
+generated/dart/pubspec.lock
+generated/go/go.sum

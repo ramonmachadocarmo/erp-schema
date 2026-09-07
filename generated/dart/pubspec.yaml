@@ -1,0 +1,7 @@
+name: erp_schema
+description: Generated Dart models for erp-schema's wire-contract JSON Schemas. Do not hand-edit — regenerate via `make generate-dart` from the erp-schema repo root.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'

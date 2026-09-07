@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://erp-schema.local/purchasing/quote.schema.json",
+  "title": "Quote",
+  "description": "A purchasing quote (orçamento), matching purchasing-service's domain.Quote wire shape. QuoteLine is intentionally local to this schema — it is NOT $ref'd to sales-service's OrderItem, which stays a separate, independently-evolving shape per its own bounded context.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "description": "Server-assigned; absent on a create request." },
+    "supplier_id": { "type": "string" },
+    "status": { "$ref": "#/$defs/QuoteStatus" },
+    "subtotal_amount": { "type": "number", "description": "Server-computed: sum of item totals. Absent/ignored on a create or update request." },
+    "discount_amount": { "type": "number" },
+    "delivery_amount": { "type": "number" },
+    "total_amount": { "type": "number", "description": "Server-computed: subtotal - discount + delivery. Absent/ignored on a create or update request." },
+    "notes": { "type": "string" },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/QuoteLine" }
+    },
+    "created_at": { "type": "string", "format": "date-time", "description": "Server-assigned; absent on a create request." }
+  },
+  "required": ["supplier_id", "notes", "items"],
+  "additionalProperties": false,
+  "$defs": {
+    "QuoteStatus": {
+      "title": "QuoteStatus",
+      "type": "string",
+      "enum": ["OPEN", "CONVERTED", "CANCELLED"],
+      "description": "Server-assigned; absent/ignored on a create or update request."
+    },
+    "QuoteLine": {
+      "title": "QuoteLine",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Server-assigned; absent on a create/update request." },
+        "product_id": { "type": "string" },
+        "quantity": { "type": "number" },
+        "unit_price": { "type": "number" },
+        "total_price": { "type": "number", "description": "Server-computed: quantity * unit_price." }
+      },
+      "required": ["product_id", "quantity", "unit_price"],
+      "additionalProperties": false
+    }
+  }
+}

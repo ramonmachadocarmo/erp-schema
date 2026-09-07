@@ -1,0 +1,9 @@
+{
+  "name": "@erp/schema",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generated TypeScript types for erp-schema's wire-contract JSON Schemas. Do not hand-edit — regenerate via `make generate-ts` from the erp-schema repo root.",
+  "type": "module",
+  "main": "./index.ts",
+  "types": "./index.ts"
+}
