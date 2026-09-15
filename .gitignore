@@ -1,4 +1,5 @@
 node_modules/
+.vscode/
 .dart_tool/
 generated/dart/.dart_tool/
 generated/dart/pubspec.lock
