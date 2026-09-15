@@ -57,23 +57,30 @@ Never hand-edit anything under `generated/` — it's overwritten on every `make 
 
 ## Consuming this repo locally (no remote git host yet)
 
-Assumes `erp-schema` is checked out as a **sibling** of the main `erp` checkout
-(`f:\codes\erp` and `f:\codes\erp-schema` side by side).
+This repo is nested **inside** the main `erp` checkout, at `erp/schema` — its own independent
+git history (not a submodule, `erp`'s `.gitignore` excludes it from that repo's tracking), just
+physically co-located for workspace convenience and so relative-path dependencies resolve inside
+every Docker build context. `erp/mobile` (the Flutter app, also its own nested repo) lives at the
+same level, so `schema` and `mobile` are siblings of each other under `erp/`.
 
-- **Go**: add `use ../erp-schema/generated/go` to `erp/go.work`. Each consuming service's
-  `go.mod` needs a plain `require erp-schema v0.0.0-00010101000000-000000000000` line — no
-  `replace` needed while the workspace `use` is active.
-- **TypeScript**: in `erp/apps/web/packages/shared/package.json`, add
-  `"@erp/schema": "file:../../../erp-schema/generated/ts"`. `file:` deps are copied on
-  `npm install`, not live — during active development, `npm link` from
-  `generated/ts` into `apps/web` instead, and only rely on the `file:` entry for what's
-  committed to the lockfile.
-- **Dart**: in `erp/apps/mobile/pubspec.yaml`:
+- **Go**: `erp/go.work` has `use ./schema/generated/go`. Each consuming service's `go.mod` needs
+  a plain `require erp-schema v0.0.0-00010101000000-000000000000` line — no `replace` needed
+  while the workspace `use` is active.
+- **TypeScript**: in `erp/apps/web/packages/shared/package.json`:
+  `"@erp/schema": "file:../../../../schema/generated/ts"` (4 levels — the package.json lives 4
+  directories under `erp/`: `apps/web/packages/shared/`). Because `schema/` now lives inside
+  `erp/`, it's included in every Docker build context by default (`.dockerignore` doesn't
+  exclude it) — the previous hard blocker, where `apps/web`'s `Dockerfile.dev` couldn't see a
+  sibling checkout outside `erp/` at image-build time, is resolved by this move, not by needing
+  a remote git host. `npm install` still needs to be re-run once after this path changes to
+  refresh the `file:` copy/symlink.
+- **Dart**: in `erp/mobile/pubspec.yaml`:
   ```yaml
   dependencies:
     erp_schema:
-      path: ../../erp-schema/generated/dart
+      path: ../schema/generated/dart
   ```
+  (1 level — `mobile/` and `schema/` are both direct children of `erp/`.)
 
 Once this repo has a remote: Go → tag + `go get erp-schema@vX.Y.Z` (drop the `use` line);
 npm → `"@erp/schema": "git+https://.../erp-schema.git#vX.Y.Z"`; Dart →
